@@ -1,0 +1,53 @@
+<%- include("partials/headerContent");   -%>
+
+  <div class="myAccount">
+    <div>
+      <h2 id="accountDetails">NAME:</h2>
+      <h3 class="paraOthers"><%= myDetails.name %></h3>
+    </div>
+    <div>
+      <h2 id="accountDetails">EMAIL:</h2>
+      <h3 class="paraOthers"><%= myDetails.email %></h3>
+    </div>
+    <div>
+      <h2 id="accountDetails">Total Posts:</h2>
+      <h3 class="paraOthers"><%= total %></h3>
+    </div>
+    <div>
+      <h2 id="accountDetails">Public Posts:</h2>
+      <h3 class="paraOthers"><%= publicP %></h3>
+    </div>
+    <div>
+      <h2 id="accountDetails">Private Posts:</h2>
+      <h3 class="paraOthers"><%= privateP %></h3>
+    </div>
+  </div>
+  <a class="myButton" href="/allPosts"><button class="btnP btn-three">My posts</button></a>
+  <a class="myButton deleteAccount"><button class="btnP btn-three">Delete Account</button></a>
+
+
+
+  <script type="text/javascript">
+    //*****************************delete*********************************************
+    const trashcan = document.querySelector('a.deleteAccount');
+    trashcan.addEventListener('click', (e) =>{
+      const endPoint = `/account/<%= myDetails.email %>`;
+      fetch(endPoint, {
+        method: 'DELETE'
+      })
+      .then(() => {
+        window.location.reload(true);
+        window.location.href = "/";
+
+      })
+      .catch(err => console.log(err));
+    })
+
+
+  </script>
+
+  <%- include("partials/footerContent"); -%>
+
+
+</body>
+</html>

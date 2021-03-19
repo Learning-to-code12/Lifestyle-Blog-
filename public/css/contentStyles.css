@@ -1,0 +1,359 @@
+.flashMessage{
+  height: 40px;
+}
+.flashMessage h3{
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 20px;
+}
+.container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+#top{
+
+  background-color: #c4fbed;
+}
+
+.names h3,h4{
+  display: inline;
+}
+
+h4{
+  font-family: 'Tinos', sans-serif;
+}
+
+a img{
+  height: 50px;
+  width: 50px;
+}
+
+#brand{
+  font-size: 30px;
+  margin-right: 10px;
+  font-family: 'Yeseva One', cursive;
+  color: #000000;
+}
+.navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 5px;
+}
+.navbar-nav  li a:hover {
+    color: #1abc9c !important;
+}
+
+html{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: table;
+}
+body{
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  display: table;
+  background-color: #defcf9;
+  background-repeat: no-repeat;
+  background-size: 1535px 900px;
+}
+
+/* Personal blogs page */
+.count{
+  position: absolute;
+  right: 15%;
+}
+#heading{
+  font-family: 'Lemon', cursive;
+}
+#headingOthers{
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 35px;
+  color: black;
+  text-decoration: none;
+  margin-bottom: 0;
+}
+.para{
+  font-family: 'Tinos', serif;
+  font-size: 20px;
+  padding-bottom: 20px;
+}
+.paraOthers{
+  font-family: 'Roboto', sans-serif;
+  font-size: 17px;
+  padding-bottom: 20px;
+}
+#blog{
+  border: 0.5px dotted black;
+}
+
+/******************* Accounts page *****************************/
+h1{
+  font-family: 'IBM Plex Serif', serif;
+}
+#accountDetails{
+  font-size: 20px;
+  color: black;
+  font-family: 'IBM Plex Serif', serif;
+}
+/* Compose page */
+.buttonStart{
+  margin-bottom: 5px;
+  font-size: 10px;
+}
+.title{
+  font-size: 20px;
+  margin: 10px 10px ;
+  font-family: 'Tinos', serif;
+}
+
+/* footer name copyrights */
+.footer {
+   display: table-row;
+	text-align: center;
+	width: 100%;
+	height: 60px;
+	background-color: #c4fbed;
+}
+
+
+.footerName{
+  font-family: 'Philosopher', sans-serif;
+  padding-top: 25px;
+  font-size: 15px;
+  color: #000000;
+}
+.footerCompose{
+  position: absolute;
+	text-align: center;
+	bottom: 0px;
+	width: 100%;
+	height: 60px;
+	background-color: #c4fbed;
+}
+.footerCompose p{
+  font-family: 'Philosopher', sans-serif;
+  padding-top: 25px;
+  font-size: 15px;
+  color: #000000;
+}
+
+/* ******************+ button ********************************** */
+button:focus{
+  outline: none !important;
+}
+.button {
+  width: 70px;
+  height: 70px;
+  font-size: 35px;
+  padding-top: 8px;
+  text-align: center;
+  color: #000;
+  text-transform: uppercase;
+  font-weight: 300;
+  margin-left: 10px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.button-1 {
+  padding-bottom: 50px;
+  background-color: transparent;
+  border: 2px solid black;
+  border-radius: 50%;
+  -webkit-transition: all .15s ease-in-out;
+  transition: all .15s ease-in-out;
+  color: black;
+}
+.button-1:hover {
+  box-shadow: 0 0 10px 0  black inset, 0 0 20px 2px black;
+  border: 2px solid black;
+}
+
+/*  #00d7c3*/
+/* ******************delete button****************************** */
+
+.btn {
+  position: relative;
+  width: 200px;
+  height: 50px;
+  line-height: 64px;
+  transition: all 0.3s;
+  span {
+    transition: all 0.3s;
+    tranform: scale(1, 1);
+  }
+}
+
+
+.btn::before, .btn::after {
+  content: '';
+  position: absolute;
+  transition: all 0.3s;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.btn-two::before, .btn-two::after {
+  content: '';
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+	height: 100%;
+  bottom: 0;
+  cursor: pointer;
+	left: 0;
+  top: 12px;
+	z-index: 1;
+  transition: all 0.3s;
+  border: 3px solid rgba(0, 0, 0);
+}
+
+.btn-two:hover::after {
+  animation-name: rotatecw;
+  animation-duration: 2s;
+}
+.btn-two:hover::before {
+  animation-name: rotateccw;
+  animation-duration: 3s;
+}
+.btn-two:hover::after, .btn-two:hover::before {
+  left: 70px;
+  width: 50px;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes rotatecw {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+@keyframes rotateccw {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(-360deg);}
+}
+.delete{
+  color: black;
+  font-family: 'IBM Plex Serif', serif;
+}
+.edit{
+  color: black;
+  font-family: 'IBM Plex Serif', serif;
+}
+
+/* Save button */
+
+.btnD {
+  position: relative;
+  width: 150px;
+  height: 50px;
+  line-height: 50px;
+  transition: all 0.3s;
+  outline: 0;
+  background-color: transparent;
+  span {
+    transition: all 0.3s;
+    tranform: scale(1, 1);
+  }
+}
+
+.btnD::before, .btnD::after {
+  content: '';
+  position: absolute;
+  transition: all 0.3s;
+  outline: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.btn-four::before {
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.2);
+  transform: scale(0.1, 0.1);
+}
+
+.btn-four:hover::before {
+  opacity: 1;
+  transform: scale(1, 1);
+}
+
+.btn-four::after {
+  transition: all 0.3s;
+  border: 3px solid rgba(0, 0, 0);
+}
+
+.btn-four:hover::after {
+  transform: scale(0, 0);
+  opacity: 0;
+}
+button h4{
+  font-size: 17px;
+  color: black;
+  font-family: 'IBM Plex Serif', serif;
+}
+
+/* publish button */
+.btnP {
+  position: relative;
+  color: black;
+  width: 150px;
+  height: 50px;
+  outline: 0;
+  background-color: transparent;
+  line-height: 50px;
+  transition: all 0.3s;
+  span {
+    transition: all 0.3s;
+    tranform: scale(1, 1);
+  }
+}
+
+.btnP::before, .btnP::after {
+  content: '';
+  position: absolute;
+  transition: all 0.3s;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* BTN THREE */
+.btn-three::before {
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.1);
+  transform: scale(1, 0.1);
+}
+
+.btn-three:hover::before {
+  opacity: 1;
+  transform: scale(1, 1);
+}
+
+.btn-three::after {
+  transition: all 0.3s;
+  border: 2px solid rgba(0, 0, 0);
+}
+
+.btn-three:hover::after {
+  transform: scale(1, .1);
+  opacity: 0;
+}
+
+.myButton{
+  font-size: 17px;
+  color: black;
+  font-family: 'IBM Plex Serif', serif;
+}

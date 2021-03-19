@@ -1,0 +1,59 @@
+<%- include("partials/headerContent");   -%>
+
+
+<h1 style="margin-bottom:20px;" id="headingOthers"><%= title %></h1>
+<p class="paraOthers"><%= body %></p>
+<% if(masterEmail == useremail){ %>
+  <div class="container-2">
+    <a href="/publicPosts/updatePage/<%= sendId %>"class="edit">
+    <div class="btn btn-two">
+      EDIT
+    </div>
+    </a>
+    <a class="delete">
+    <div class="btn btn-two">
+      DELETE
+    </div>
+    </a>
+  </div>
+
+
+
+<% } %>
+
+
+
+
+<script type="text/javascript">
+  //*****************************delete*********************************************
+  const trashcan = document.querySelector('a.delete');
+  trashcan.addEventListener('click', (e) =>{
+    const endPoint = `/publicPosts/<%= sendId %>`;
+    fetch(endPoint, {
+      method: 'DELETE'
+    })
+    .then(() => {
+      window.location.reload(true);
+
+      if(<%= isPrivate %> == false){
+        window.location.href = "/blog";
+      }else{
+        window.location.href = "/home";
+      }
+
+    })
+    .catch(err => console.log(err));
+  })
+
+
+</script>
+
+</div>
+  <div class="footerCompose">
+    <p>© Copyright 2020 Vartika Hari Durgapal</p>
+  </div>
+</div>
+
+
+</body>
+</html>

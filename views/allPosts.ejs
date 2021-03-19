@@ -1,0 +1,26 @@
+<%- include("partials/headerContent");   -%>
+
+<h1 style="margin-bottom:20px;" id="heading">All Posts</h1>
+
+<div>
+  <h2 id="accountDetails">Total Posts:</h2>
+  <h3 class="paraOthers"><%= total %></h3>
+</div>
+
+<% allArticles.forEach(function(article){ %>
+<%  if(article.email == masterUser){ %>
+      <h1 id="headingOthers" ><%= article.title %></h1>
+      <% if(article.private == true){ %>
+        <h3>Private</h3>
+      <% }else if(article.private == false){ %>
+        <h3>Public</h3>
+      <% } %>
+      <p class="paraOthers"><%= article.content %> </p>
+      <hr id="blog">
+
+<%  }  %>
+
+<% }); %>
+<a href="/compose"><button class="button button-1">+</button></a>
+
+<%- include("partials/footerContent"); -%>

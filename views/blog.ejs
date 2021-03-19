@@ -1,0 +1,37 @@
+<%- include("partials/headerContent");   -%>
+<% if(addMessage.length > 0){ %>
+  <div class="w3-panel w3-green flashMessage">
+       <h3><%=addMessage%></h3>
+  </div>
+<% } %>
+<h1 id="heading">Blogs</h1>
+<p class="para"><%= publicHome %></p>
+<br>
+
+<div class="count">
+  <h5>Total Posts: <%= totalPosts%></h5>
+</div>
+
+<% postingPublicPosts.forEach(function(post){ %>
+  <% if(post.private == false){ %>
+    <% var myString = post.content; %>
+    <% var myName = post.name; %>
+    <% var myEmail = post.email; %>
+    <% var length = 500;%>
+    <a id="headingOthers" href="/publicPosts/<%= post._id %>"><h1><%= post.title %></h1>
+      <div class="names">
+        <h4>BY</h4> <h3><%= myName %></h3>
+      </div>
+    </a>
+
+    <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= post._id %>">Read More</a>
+      <br>
+      <h4>CONTACT: <%= myEmail %></h4>
+    </p>
+    <hr id="blog">
+
+<%  } %>
+<% }); %>
+
+<a href="/compose"><button class="button button-1">+</button></a>
+<%- include("partials/footerContent"); -%>
