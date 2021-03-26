@@ -2,25 +2,40 @@
 
 <h1 style="margin-bottom:20px;" id="heading">All Posts</h1>
 
-<div>
-  <h2 id="accountDetails">Total Posts:</h2>
-  <h3 class="paraOthers"><%= total %></h3>
-</div>
 
 <% allArticles.forEach(function(article){ %>
-<%  if(article.email == masterUser){ %>
-      <h1 id="headingOthers" ><%= article.title %></h1>
-      <% if(article.private == true){ %>
-        <h3>Private</h3>
-      <% }else if(article.private == false){ %>
-        <h3>Public</h3>
-      <% } %>
-      <p class="paraOthers"><%= article.content %> </p>
-      <hr id="blog">
+<% var length = 500;%>
+<% var myString = article.content; %>
+<% var myId = article._id;%>
 
+<%  if (requiredUser == masterUser) {   %>
+  <h1 id="headingOthers" ><%= article.title %></h1>
+  <% if(article.private == true){ %>
+    <h3 class="miscellaneous">Private</h3>
+    <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+  <% }else if(article.private == false){ %>
+    <h3 class="miscellaneous">Public</h3>
+    <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+    <h5 class="miscellaneous">Total Likes: <%= article.likes%></h5>
+    <h5 class="miscellaneous">Total Disikes: <%= article.dislikes%></h5>
+  <% } %>
+<hr id="blog">
+<%  } else { %>
+<%  if(article.private == false){ %>
+    <h1 id="headingOthers" ><%= article.title %></h1>
+    <h3 class="miscellaneous">Public</h3>
+    <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+  <% } %>
+
+<hr id="blog">
 <%  }  %>
 
+
 <% }); %>
-<a href="/compose"><button class="button button-1">+</button></a>
+
+<%  if (requiredUser == masterUser) {   %>
+  <a href="/compose"><button class="button button-1">+</button></a>
+<%    } %>
+
 
 <%- include("partials/footerContent"); -%>
