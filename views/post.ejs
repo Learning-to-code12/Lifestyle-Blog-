@@ -1,9 +1,14 @@
 <%- include("partials/headerContent");   -%>
 
 
-<h1 style="margin-bottom:20px;" id="headingOthers"><%= title %></h1>
-<p class="paraOthers"><%= body %></p>
-<% if(masterEmail == useremail){ %>
+<h1 style="margin-bottom:20px;" id="headingOthers"><%= post.title %></h1>
+<p class="paraOthers"><%= post.content %></p>
+
+<% var sendId = post._id;%>
+<h4>Author: <h4 class="postDetails"><%= full_name%></h4></h4>
+<br>
+<h4>Email: <h4 class="postDetails"><%= post.email%></h4></h4>
+<% if(masterEmail == post.email){ %>
   <div class="container-2">
     <a href="/publicPosts/updatePage/<%= sendId %>"class="edit">
     <div class="btn btn-two">
@@ -16,9 +21,14 @@
     </div>
     </a>
   </div>
-
-
-
+<% } else {%>
+  <div class="container-2">
+    <a href="/account/<%= post.email%>" class="edit">
+      <div class="btn btn-two">
+        SEE PROFILE
+      </div>
+    </a>
+  </div>
 <% } %>
 
 
@@ -35,7 +45,7 @@
     .then(() => {
       window.location.reload(true);
 
-      if(<%= isPrivate %> == false){
+      if(<%= post.private %> == false){
         window.location.href = "/blog";
       }else{
         window.location.href = "/home";
