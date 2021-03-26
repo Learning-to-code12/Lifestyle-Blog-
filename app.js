@@ -47,18 +47,19 @@ const aboutContent = 'Hiii, I am Vartika. A software engineer currently studying
 const contactContent = "Email :- vartika12durgapal@gmail.com";
 var userName = 0;
 var userEmail = 0;
-var usertotalPosts = 0;
-var userpublicPosts = 0;
-var userprivatePosts = 0;
-var publicPosts = 0;
-//
-//
+var userNo = 0;
+var full_name = 0;
+var t_posts = 0;
+var pr_posts = 0;
+var pb_posts = 0;
+
+
 const homeContentPublic = "These blogs are viewed publicly. To add up anything try composing your blogs publicly! and to compose one click on + button in bottom left";
 
 
 // mongoose.connect("mongodb+srv://admin-vartika:vartika12pandit@cluster0.m6p98.mongodb.net/blogDB", {useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect("mongodb://localhost:27017/blogDB", {useNewUrlParser: true, useUnifiedTopology: true});
-// , useFindAndModify: false
+mongoose.connect("mongodb://localhost:27017/blogDB", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
+
 mongoose.set("useCreateIndex", true);
 //
 const userSchema = new mongoose.Schema ({
@@ -66,7 +67,14 @@ const userSchema = new mongoose.Schema ({
   password: String,
   name: String,
   googleId: String,
-  facebookId: String
+  facebookId: String,
+  first_name: String,
+  last_name: String,
+  phone_number: Number,
+  status: String,
+  social_link: String,
+  about: String
+
 });
 
 
@@ -76,7 +84,10 @@ const articleSchema = new mongoose.Schema({
   email: String,
   title: String,
   content: String,
-  private: Boolean
+  private: Boolean,
+  likes: Number,
+  dislikes: Number
+
 });
 
 //passport plugin:
@@ -111,22 +122,33 @@ passport.use(new GoogleStrategy({
     User.findOne({googleId: profile.id}, function(err, foundUser){
       if(!err){
         if(foundUser){
-          // if(profile.id == foundUser.id){
+
             userName = foundUser.name;
             userEmail = foundUser.email;
+            userNo = foundUser.phone_number;
+            full_name = foundUser.first_name;
             console.log(userName);
             console.log(userEmail);
             return cb(null, foundUser);
-          // }
+
 
         }else{
           console.log(profile);
           userName = profile.displayName;
           userEmail = profile.emails[0].value;
+
           const newUser = new User({
             name: profile.displayName,
             email: profile.emails[0].value,
-            googleId: profile.id
+            googleId: profile.id,
+            first_name: "not-given",
+            last_name: "not-given",
+            phone_number: 0,
+            status: "not-given",
+            social_link: "not-given",
+            about: "not-given"
+
+
           });
           newUser.save(function(err) {
             if(!err){
@@ -149,18 +171,15 @@ passport.use(new FacebookStrategy({
     profileFields: ['email','id', 'displayName', 'gender']
   },
   function(accessToken, refreshToken, profile, cb){
-    // var email = profile.email || profile.emails[0].value;
-    // if (! email){
-    //   console.log('this user has no email in his FB');
-    // }else{
-    //   console.log(email);
-    // }
+
     User.findOne({facebookId: profile.id}, function(err, foundUser){
 
       if(!err){
         if(foundUser){
             userName = foundUser.name;
             userEmail = foundUser.email;
+            userNo = foundUser.phone_number;
+            full_name = foundUser.first_name;
             console.log(userName);
             console.log(userEmail);
             return cb(null, foundUser);
@@ -169,11 +188,19 @@ passport.use(new FacebookStrategy({
           console.log(profile);
           console.log(profile.emails[0].value);
           userName = profile.displayName;
-          userEmail = profile.emails[0].value
+          userEmail = profile.emails[0].value;
+          // userNo = 0;
           const newUser = new User({
             name: profile.displayName,
             email: profile.emails[0].value,
-            facebookId: profile.id
+            facebookId: profile.id,
+            first_name: "not-given",
+            last_name: "not-given",
+            phone_number: 0,
+            status: "not-given",
+            social_link: "not-given",
+            about: "not-given"
+//
           });
           newUser.save(function(err) {
             if(!err){
@@ -187,11 +214,11 @@ passport.use(new FacebookStrategy({
     })
   }
 ));
-
-
+//
+//
 // *********************************************
 app.get("/", function(req, res){
-    res.render("main", {userName: userName});
+    res.render("main", {userName: userName, userNo: userNo});
 
 });
 
@@ -205,7 +232,7 @@ app.get("/auth/google/lovelyLifestyle",
       // Successful authentication, redirect home.
       res.redirect('/');
 });
-
+//
 app.get("/auth/facebook", function(req, res, next) {
   passport.authenticate('facebook', {scope: ['public_profile', 'email']} )(req, res, next);
 });
@@ -219,7 +246,7 @@ app.get("/auth/facebook/lovelyLifestyle",
 
 
 app.get("/Login", function(req, res){
-  res.render("Login", {loginMessage: req.flash('loginMessage')});
+  res.render("Login", {message: req.flash('message')});
 });
 
 app.get("/SignUp", function(req, res){
@@ -234,6 +261,7 @@ app.get("/Logout", function(req, res){
   req.logout();
   res.redirect("/");
   userName = 0;
+  userNo = 0;
 });
 
 app.post("/SignUp", function (req, res) {
@@ -255,7 +283,15 @@ app.post("/SignUp", function (req, res) {
           const newUser = new User({
             name:  req.body.name,
             email: req.body.email,
-            password: hash
+            password: hash,
+            first_name: "not-given",
+            last_name: "not-given",
+            phone_number: 0,
+            status: "not-given",
+            social_link: "not-given",
+            about: "not-given"
+
+
           });
           newUser.save(function(err){
             if (err) {
@@ -264,7 +300,7 @@ app.post("/SignUp", function (req, res) {
               console.log(newUser.name);
               userName = newUser.name;
               userEmail = newUser.email;
-              res.render("main", {userName: newUser.name});
+              res.render("main", {userName: newUser.name, userNo: userNo});
             }
           });
         });
@@ -286,10 +322,12 @@ app.post("/Login", function (req, res) {
           if(result == true){
             userName = foundUser.name;
             userEmail = foundUser.email;
+            userNo = foundUser.phone_number;
+            full_name = foundUser.first_name;
             console.log(userName);
-            res.render("main", {userName: foundUser.name});
+            res.render("main", {userName: foundUser.name, userNo: userNo});
           }else{
-            req.flash('loginMessage',  'Check the password and try again!');
+            req.flash('message',  'Check the password and try again!');
             res.redirect("Login");
             console.log("Error please login again");
           }
@@ -300,6 +338,44 @@ app.post("/Login", function (req, res) {
 
 });
 
+// profile page:
+app.get("/profile", function(req, res) {
+  res.render("profile");
+});
+
+app.post("/profile", function(req, res) {
+  if (userName != 0) {
+    User.findOneAndUpdate(
+        {email: req.body.email},
+        {
+          $set: {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            phone_number: req.body.phone_number,
+            status: req.body.status,
+            social_link: req.body.social,
+            about: req.body.about
+          },
+        },
+        {new: true},
+        function(err, foundObject){
+        if(err){
+          res.send(err);
+        }else{
+          console.log(foundObject);
+          userNo = req.body.phone_number;
+          full_name = req.body.first_name;
+          res.render("main", {userName: userName, userNo: userNo});
+        }
+       }
+     );
+  }else{
+    res.redirect("Login");
+  }
+});
+
+//
+// getting account page:
 app.get("/account", function(req, res){
   if(userEmail != 0){
     User.findOne({email: userEmail}, function(err, foundUser){
@@ -307,16 +383,33 @@ app.get("/account", function(req, res){
         res.send(err);
       }else{
         if(foundUser){
-          res.render("account", {myDetails: foundUser, total: usertotalPosts, publicP: userpublicPosts, privateP: userprivatePosts});
+          res.render("account", {myDetails: foundUser, masterEmail: userEmail, t_posts: t_posts, pb_posts: pb_posts, pr_posts: pr_posts});
         }
       }
     });
   }else{
     res.render("Login");
   }
-
 });
 
+app.get("/account/:postMail", function(req, res){
+  if(userEmail != 0){
+    User.findOne({email: req.params.postMail}, function(err, foundUser){
+      if(err){
+        res.send(err);
+      }else{
+        if(foundUser){
+          res.render("account", {myDetails: foundUser , masterEmail: userEmail});
+        }
+      }
+    });
+  }else{
+    res.render("Login");
+  }
+});
+
+
+// deleting every data of user along with its account:
 app.delete("/account/:mail", function(req, res) {
   // var foundUserEmail = 0;
   User.findOneAndDelete({email: req.params.mail}, function(err, foundUser){
@@ -324,7 +417,7 @@ app.delete("/account/:mail", function(req, res) {
       res.send(err);
     }else{
       if(foundUser){
-        // foundUserEmail = foundUser.email;
+
         userName = 0;
         userEmail = 0;
         res.redirect('/');
@@ -340,11 +433,29 @@ app.delete("/account/:mail", function(req, res) {
   });
 });
 
+
+// rendering all psts page through accounts of a particular user:
 app.get("/allPosts", function(req, res) {
   Article.find(function(err, foundArticles){
     if(!err){
       if(userEmail != 0){
-        res.render("allPosts", {masterUser: userEmail, allArticles: foundArticles, total: usertotalPosts});
+        res.render("allPosts", {masterUser: userEmail, allArticles: foundArticles, requiredUser: userEmail});
+      }else{
+        res.redirect("SignUp");
+      }
+      console.log(foundArticles);
+    }else{
+      res.send(err);
+    }
+  });
+});
+
+
+app.get("/allPosts/:postMail", function(req, res) {
+  Article.find(function(err, foundArticles){
+    if(!err){
+      if(userEmail != 0){
+        res.render("allPosts", {masterUser: userEmail, allArticles: foundArticles, requiredUser: req.params.postMail});
       }else{
         res.redirect("SignUp");
       }
@@ -357,13 +468,16 @@ app.get("/allPosts", function(req, res) {
 
 
 app.get("/compose", function(req,res){
-  if (userName == 0) {
+  if (userName == 0 || userEmail == 0) {
     res.redirect("/SignUp");
   } else {
     res.render("compose" );
   }
 
 });
+
+
+// composing a blog post:
 
 app.post("/compose", function (req, res) {
   if(req.body.hasOwnProperty("private")){
@@ -372,12 +486,14 @@ app.post("/compose", function (req, res) {
       email: userEmail,
       title: req.body.postTitle,
       content: req.body.postBody,
-      private: true
+      private: true,
+      likes: 0,
+      dislikes: 0
     });
     newArticle.save(function(err){
       if(!err){
-        userprivatePosts = userprivatePosts + 1;
-        usertotalPosts = usertotalPosts + 1;
+        pr_posts = pr_posts + 1;
+        t_posts = t_posts + 1;
         req.flash('addMessage',  'Your article has been added successfully');
         res.redirect("/home");
         console.log("successfully added a new article");
@@ -393,12 +509,14 @@ app.post("/compose", function (req, res) {
       email: userEmail,
       title: req.body.postTitle,
       content: req.body.postBody,
-      private: false
+      private: false,
+      likes: 0,
+      dislikes: 0
     });
     newArticle.save(function(err){
       if(!err){
-        userpublicPosts = userpublicPosts + 1;
-        usertotalPosts = usertotalPosts + 1;
+        pb_posts = pb_posts + 1;
+        t_posts = t_posts + 1;
         req.flash('addMessage',  'Your article has been added successfully');
         res.redirect("/blog");
         console.log("successfully added a new article");
@@ -411,11 +529,12 @@ app.post("/compose", function (req, res) {
 });
 //
 
+// rendering home or private blog page:
 app.get("/home", function(req, res){
   if (userName != 0) {
     Article.find(function(err, foundArticles){
       if(!err){
-        res.render("home", {masterUser: userName, home: homeStartingContent, postingPosts: foundArticles, noOfPosts: userprivatePosts, addMessage: req.flash('addMessage')});
+        res.render("home", {masterUser: userName, home: homeStartingContent, postingPosts: foundArticles,  addMessage: req.flash('addMessage')});
       }else{
         res.send(err);
       }
@@ -426,17 +545,14 @@ app.get("/home", function(req, res){
   }
 
 });
-var publicPosts = 0;
+
+
+// rendering blog page:
 app.get("/blog", function(req, res) {
   Article.find(function(err, foundArticles){
     if(!err){
-      foundArticles.forEach(function(post){
-        if(post.private == false){
-          publicPosts = publicPosts + 1;
-        }
-      });
 
-      res.render("blog", {publicHome: homeContentPublic, postingPublicPosts: foundArticles,totalPosts: publicPosts, addMessage: req.flash('addMessage')});
+      res.render("blog", {publicHome: homeContentPublic, postingPublicPosts: foundArticles, addMessage: req.flash('addMessage')});
     }else{
       res.send(err);
     }
@@ -444,16 +560,79 @@ app.get("/blog", function(req, res) {
   });
 });
 
+//
+// likes button and api:
+app.post('/addLike/:postId', function (req, res) {
+  if(userName != 0){
+    Article.findById(req.params.postId, function(err, foundArticle) {
+      if(err){
+        res.send(err);
+      }else{
+        foundArticle.likes += 1;
+      }
+
+      foundArticle.save(function(err) {
+        if(err){
+          res.send(err);
+        }else{
+          console.log(foundArticle);
+          res.redirect("/blog");
+        }
+      });
+    });
+  }else{
+      console.log("Please sign up or login first!!");
+    res.redirect("/SignUp");
+  }
+
+});
+
+app.post('/removeLike/:postId', function (req, res) {
+  if(userName != 0){
+    Article.findById(req.params.postId, function(err, foundArticle) {
+      if(err){
+        res.send(err);
+      }else{
+        foundArticle.dislikes += 1;
+
+      }
+
+      foundArticle.save(function(err) {
+        if(err){
+          res.send(err);
+        }else{
+          console.log(foundArticle);
+          res.redirect("/blog");
+        }
+      });
+    });
+  }else{
+      console.log("Please sign up or login first!!");
+    res.redirect("/SignUp");
+  }
+
+});
+
+
+// rendering each individual post: from both home and blog page:
 app.get("/publicPosts/:postId", function (req, res) {
+  // var public_posts;
   Article.findOne({_id: req.params.postId}, function(err, foundArticle){
     if(foundArticle){
+      // User.findOne({email: foundArticle.email}, function (err, foundUser) {
+      //   if(err){
+      //     res.send(err);
+      //   }else{
+      //     if(foundUser){
+      //       private_posts = foundUser.private_posts;
+      //     }
+      //   }
+      // });
       res.render("post",{
-        masterEmail: userEmail,
-        useremail: foundArticle.email,
-        sendId: foundArticle._id,
-        title: foundArticle.title,
-        body: foundArticle.content,
-        isPrivate: foundArticle.private
+        post: foundArticle,
+        // public_posts: userpublicPosts,
+        full_name: full_name,
+        masterEmail: userEmail
       });
     }else{
       res.send("No articles matching that title was found.");
@@ -461,6 +640,8 @@ app.get("/publicPosts/:postId", function (req, res) {
   });
 });
 
+//
+// deleting post from posts page and from database:
 app.delete("/publicPosts/:postId", function(req, res){
   Article.findOneAndDelete({_id: req.params.postId}, function(err, foundArticle){
     if(err){
@@ -477,6 +658,8 @@ app.delete("/publicPosts/:postId", function(req, res){
   });
 });
 
+
+// upading post in database from update page:(get request)
 app.get("/publicPosts/updatePage/:postId", function(req, res){
   Article.findOne({_id: req.params.postId}, function(err, foundArticle){
     if(foundArticle){
@@ -492,7 +675,7 @@ app.get("/publicPosts/updatePage/:postId", function(req, res){
   });
 });
 
-
+// upading post in database from update page:(post request) and redirecting to home and blog page:
 app.post("/publicPosts/updatePage/:postId", function(req, res){
   Article.findOneAndUpdate(
       {_id: req.params.postId},
