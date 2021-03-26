@@ -8,15 +8,11 @@
   <p class="para"><%= home %></p>
   <br>
 
-
-<div class="count">
-  <h5>Total Posts: <%= noOfPosts%></h5>
-</div>
   <% postingPosts.forEach(function(post){ %>
     <% if(post.private == true && post.name == masterUser){ %>
       <a id="headingOthers" href="/publicPosts/<%= post._id %>"><h1 ><%= post.title %></h1></a>
       <% var myString = post.content; %>
-      <% var length = 500;%>
+      <% var length = 200;%>
       <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= post._id %>">Read More</a>
       </p>
       <hr id="blog">
