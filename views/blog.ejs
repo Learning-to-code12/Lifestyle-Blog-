@@ -8,30 +8,88 @@
 <p class="para"><%= publicHome %></p>
 <br>
 
-<div class="count">
-  <h5>Total Posts: <%= totalPosts%></h5>
-</div>
-
+<% var likeCount = 0;%>
+<% var dislikeCount = 10;%>
 <% postingPublicPosts.forEach(function(post){ %>
   <% if(post.private == false){ %>
     <% var myString = post.content; %>
     <% var myName = post.name; %>
     <% var myEmail = post.email; %>
-    <% var length = 500;%>
-    <a id="headingOthers" href="/publicPosts/<%= post._id %>"><h1><%= post.title %></h1>
-      <div class="names">
-        <h4>BY</h4> <h3><%= myName %></h3>
-      </div>
-    </a>
+    <% var myId = post._id;%>
+    <% var length = 200;%>
+    <% likeCount += 1;%>
+    <% dislikeCount += 1;%>
 
-    <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= post._id %>">Read More</a>
+    <a id="headingOthers" href="/publicPosts/<%= myId %>"><h1><%= post.title %></h1></a>
+      <div class="names">
+        <h4 >BY</h4> <h3><%= myName %></h3>
+      </div>
+
+
+    <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
       <br>
-      <h4>CONTACT: <%= myEmail %></h4>
+      <h3 class="contact"><%= myEmail %></h3>
+
+      <div class="likes">
+        <input type="image" class="like" id=<%= likeCount%> src="images/like.png">
+        <h5 class="noLikes"><%= post.likes%></h5>
+        <input type="image" class="unlike" id=<%= dislikeCount%> src="images/dislike.png">
+        <h5 class="noLikes"><%= post.dislikes%></h5>
+      </div>
+
+
+
+      <script type="text/javascript">
+        var likeButton = document.getElementById(<%= likeCount%>);
+        var dislikeButton = document.getElementById(<%= dislikeCount%>);
+
+
+
+          likeButton.addEventListener('click', function(e) {
+            fetch('/addLike/<%= myId%>', {method: 'POST'})
+            .then(() => {
+                window.location.reload(false);
+                // window.location.href = "/blog";
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+          });
+
+          dislikeButton.addEventListener('click', function(e) {
+            fetch('/removeLike/<%= myId%>', {method: 'POST'})
+            .then(() => {
+                window.location.reload(false);
+                // window.location.href = "/blog";
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+          });
+
+
+
+
+      </script>
+
     </p>
+
     <hr id="blog">
+
 
 <%  } %>
 <% }); %>
 
 <a href="/compose"><button class="button button-1">+</button></a>
-<%- include("partials/footerContent"); -%>
+
+</div>
+  <div class="footer">
+    <p class="footerName">© Copyright 2020 Vartika Hari Durgapal</p>
+  </div>
+</div>
+
+
+
+
+</body>
+</html>
