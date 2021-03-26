@@ -1,3 +1,25 @@
+.likes{
+
+  margin: 17px;
+}
+.like{
+  height: 35px;
+  width: 35px;
+}
+
+input{
+  height: 35px;
+  width: 35px;
+  margin-top: 9px;
+}
+
+.noLikes{
+  margin-left: 5px;
+  margin-right: 30px;
+  margin-bottom: 5px;
+  display: inline;
+  font-size: 25px;
+}
 .flashMessage{
   height: 40px;
 }
@@ -18,7 +40,15 @@
   display: inline;
 }
 
+.names{
+  margin-bottom: 15px;
+}
+
 h4{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
+.postDetails{
   font-family: 'Tinos', sans-serif;
 }
 
@@ -62,6 +92,13 @@ body{
   background-size: 1535px 900px;
 }
 
+/******************all posts page*******************************/
+.miscellaneous{
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  color: black;
+}
+
 /* Personal blogs page */
 .count{
   position: absolute;
@@ -91,15 +128,18 @@ body{
   border: 0.5px dotted black;
 }
 
+/* ************public blogs page************************** */
+.contact{
+  /* font-weight: bold; */
+  font-family: 'Roboto', sans-serif;
+  color: black;
+  font-size: 20px;
+}
 /******************* Accounts page *****************************/
 h1{
   font-family: 'IBM Plex Serif', serif;
 }
-#accountDetails{
-  font-size: 20px;
-  color: black;
-  font-family: 'IBM Plex Serif', serif;
-}
+
 /* Compose page */
 .buttonStart{
   margin-bottom: 5px;
