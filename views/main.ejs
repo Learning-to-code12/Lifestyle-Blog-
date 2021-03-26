@@ -48,9 +48,16 @@
             <a class="navHeading nav-link" data-toggle="tooltip" data-placement="bottom" title="Login!!!" href="/Login"><b>LOGIN</b></a>
           </li>
 <%    } else {  %>
-  <li class="nav-item">
-    <a class="navHeading nav-link" data-toggle="tooltip" data-placement="bottom" title="My Account" href="/account"><b>ACCOUNT</b></a>
-    </li>
+<%  if (userNo == 0) { %>
+    <li class="nav-item">
+      <a class="navHeading nav-link" data-toggle="tooltip" data-placement="bottom" title="My Account" href="/profile"><b>PROFILE</b></a>
+      </li>
+<%    } else {  %>
+    <li class="nav-item">
+      <a class="navHeading nav-link" data-toggle="tooltip" data-placement="bottom" title="My Account" href="/account"><b>ACCOUNT</b></a>
+      </li>
+<%    }  %>
+
       <li class="nav-item">
         <a class="navHeading nav-link" data-toggle="tooltip" data-placement="bottom" title="Sign up!!!" href="/Logout"><b>LOG OUT</b></a>
         </li>
@@ -77,8 +84,12 @@
     <!--section : main image -->
 
     <section id="image">
-      <img class="mainImage" src="https://static.wixstatic.com/media/f61af8_e15083b95c954f71a1b4d9a5a78ded70~mv2_d_2121_1312_s_2.jpg/v1/fill/w_1899,h_849,al_c,q_85,usm_0.66_1.00_0.01/f61af8_e15083b95c954f71a1b4d9a5a78ded70~mv2_d_2121_1312_s_2.webp" alt="">
+      <img class="fade" src="https://static.wixstatic.com/media/f61af8_e15083b95c954f71a1b4d9a5a78ded70~mv2_d_2121_1312_s_2.jpg/v1/fill/w_1899,h_849,al_c,q_85,usm_0.66_1.00_0.01/f61af8_e15083b95c954f71a1b4d9a5a78ded70~mv2_d_2121_1312_s_2.webp" alt="">
+      <video id="video" class="fade" width="100%" muted="muted" loop>
+        <source src="images/lifestyle.mp4" type="video/mp4">
 
+        Your browser does not support HTML5 video.
+      </video>
     </section>
       <!-- additions -->
 
@@ -242,5 +253,10 @@
       </div>
       </footer>
 
-<script src="animation.js" charset="utf-8"></script>
+      <script>
+            var viewport = document.getElementById('image');
+            var video = document.getElementById('video');
+            viewport.addEventListener('mouseover', function() { video.play() }, false);
+            viewport.addEventListener('mouseout', function() { video.pause() }, false);
+          </script>
 <%- include('partials/footerMain') %>
