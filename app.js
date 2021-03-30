@@ -57,7 +57,6 @@ var pb_posts = 0;
 const homeContentPublic = "These blogs are viewed publicly. To add up anything try composing your blogs publicly! and to compose one click on + button in bottom left";
 
 
-// mongoose.connect("mongodb+srv://admin-vartika:vartika12pandit@cluster0.m6p98.mongodb.net/blogDB", {useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect("mongodb://localhost:27017/blogDB", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 
 mongoose.set("useCreateIndex", true);
