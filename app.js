@@ -57,6 +57,7 @@ var pb_posts = 0;
 const homeContentPublic = "These blogs are viewed publicly. To add up anything try composing your blogs publicly! and to compose one click on + button in bottom left";
 
 
+// mongoose.connect("mongodb+srv://admin-vartika:vartika12pandit@cluster0.m6p98.mongodb.net/blogDB", {useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect("mongodb://localhost:27017/blogDB", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 
 mongoose.set("useCreateIndex", true);
@@ -115,9 +116,10 @@ passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/google/lovelyLifestyle",
+    passReqToCallback   : true,
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   },
-  function(accessToken, refreshToken, profile, cb){
+  function(request, accessToken, refreshToken, profile, done){
     User.findOne({googleId: profile.id}, function(err, foundUser){
       if(!err){
         if(foundUser){
@@ -128,7 +130,7 @@ passport.use(new GoogleStrategy({
             full_name = foundUser.first_name;
             console.log(userName);
             console.log(userEmail);
-            return cb(null, foundUser);
+            return done(err, foundUser);
 
 
         }else{
@@ -149,9 +151,12 @@ passport.use(new GoogleStrategy({
 
 
           });
-          newUser.save(function(err) {
-            if(!err){
-              return cb(null, newUser);
+          newUser.save(function(err){
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(newUser.name);
+              return done(err, newUser);
             }
           });
         }
@@ -181,14 +186,13 @@ passport.use(new FacebookStrategy({
             full_name = foundUser.first_name;
             console.log(userName);
             console.log(userEmail);
-            return cb(null, foundUser);
+            return cb(err, foundUser);
 
         }else{
           console.log(profile);
           console.log(profile.emails[0].value);
           userName = profile.displayName;
           userEmail = profile.emails[0].value;
-          // userNo = 0;
           const newUser = new User({
             name: profile.displayName,
             email: profile.emails[0].value,
@@ -201,9 +205,12 @@ passport.use(new FacebookStrategy({
             about: "not-given"
 //
           });
-          newUser.save(function(err) {
-            if(!err){
-              return cb(null, newUser);
+          newUser.save(function(err){
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(newUser.name);
+              return cb(err, newUser);
             }
           });
         }
@@ -221,20 +228,20 @@ app.get("/", function(req, res){
 
 });
 
-app.get("/auth/google", function(req, res, next) {
-  passport.authenticate('google', {scope: ['profile', 'email']} )(req, res, next);
-});
+app.get('/auth/google',
+  passport.authenticate('google', { scope:
+      [ 'email', 'profile' ] }
+));
 
-app.get("/auth/google/lovelyLifestyle",
-  passport.authenticate('google', { failureRedirect: "/Login" }),
-    function(req, res) {
-      // Successful authentication, redirect home.
-      res.redirect('/');
-});
+app.get( '/auth/google/lovelyLifestyle',
+    passport.authenticate( 'google', {
+        successRedirect: "/",
+        failureRedirect: "/login"
+}));
 //
-app.get("/auth/facebook", function(req, res, next) {
-  passport.authenticate('facebook', {scope: ['public_profile', 'email']} )(req, res, next);
-});
+app.get("/auth/facebook",
+  passport.authenticate('facebook', {scope: ['public_profile', 'email']}
+));
 
 app.get("/auth/facebook/lovelyLifestyle",
   passport.authenticate('facebook', { failureRedirect: "/Login" }),
@@ -339,35 +346,41 @@ app.post("/Login", function (req, res) {
 
 // profile page:
 app.get("/profile", function(req, res) {
-  res.render("profile");
+  res.render("profile", {message: req.flash('message'), email: userEmail});
 });
 
 app.post("/profile", function(req, res) {
   if (userName != 0) {
-    User.findOneAndUpdate(
-        {email: req.body.email},
-        {
-          $set: {
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            phone_number: req.body.phone_number,
-            status: req.body.status,
-            social_link: req.body.social,
-            about: req.body.about
+    if(req.body.email == userEmail){
+      User.findOneAndUpdate(
+          {email: req.body.email},
+          {
+            $set: {
+              first_name: req.body.first_name,
+              last_name: req.body.last_name,
+              phone_number: req.body.phone_number,
+              status: req.body.status,
+              social_link: req.body.social,
+              about: req.body.about
+            },
           },
-        },
-        {new: true},
-        function(err, foundObject){
-        if(err){
-          res.send(err);
-        }else{
-          console.log(foundObject);
-          userNo = req.body.phone_number;
-          full_name = req.body.first_name;
-          res.render("main", {userName: userName, userNo: userNo});
-        }
-       }
-     );
+          {new: true},
+          function(err, foundObject){
+          if(err){
+            res.send(err);
+          }else{
+            console.log(foundObject);
+            userNo = req.body.phone_number;
+            full_name = req.body.first_name;
+            res.render("main", {userName: userName, userNo: userNo});
+          }
+         }
+       );
+    }else{
+      req.flash('message',  'kindly enter the registered email only and try again!');
+      res.render("profile");
+    }
+
   }else{
     res.redirect("Login");
   }
@@ -699,6 +712,13 @@ app.post("/publicPosts/updatePage/:postId", function(req, res){
    );
 });
 
-app.listen(3000, function() {
-  console.log("Server started successfully");
+// for heroku setup:
+
+let port = process.env.PORT;
+if(port == null || port == ""){
+  port = 3000;
+}
+
+app.listen(port, function() {
+  console.log("Server has started successfully");
 });
