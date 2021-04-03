@@ -131,6 +131,10 @@ div#timeline_container > ul > li div.event_content h4, p{
   font-family: Roboto;
 }
 
+div#timeline_container > ul > li div.event_content h4{
+  font-weight: bold;
+}
+
 div#timeline_container > ul > li div.event_content ul {
 	margin:0;
 	padding:0;
