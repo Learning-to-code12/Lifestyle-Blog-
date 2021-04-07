@@ -259,6 +259,20 @@ iframe {
   border-bottom: 2px solid #dbdbdb;
   margin-bottom: 45px;
 }
+.wrap-input{
+  height: 20px;
+  width: 20px;
+  display: inline;
+  position: absolute;
+  bottom: 43%;
+  right: 80px;
+}
+/* for sign up page */
+i{
+  position: absolute;
+  bottom: 30%;
+  right: 80px;
+}
 
 .label-input100 {
   font-family: Poppins-SemiBold;
@@ -269,7 +283,7 @@ iframe {
 }
 
 .input100 {
-  display: block;
+  display: inline;
   width: 100%;
   height: 50px;
   background: transparent;
@@ -369,11 +383,22 @@ iframe {
 
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/
-
+@media (max-width: 1400px) {
+  .wrap-input{
+    position: absolute;
+      bottom: 39%;
+      right: 80px;
+  }
+}
 @media (max-width: 576px) {
   .wrap-login100 {
     padding-left: 15px;
     padding-right: 15px;
+  }
+  .wrap-input{
+    position: absolute;
+      bottom: 39%;
+      right: 80px;
   }
 }
 
@@ -447,5 +472,4 @@ iframe {
 
 #button-6:hover button {
   color: white;
-/*  #2D3142  */
 }
