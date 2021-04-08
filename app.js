@@ -52,12 +52,11 @@ var full_name = 0;
 var t_posts = 0;
 var pr_posts = 0;
 var pb_posts = 0;
-
+var flag = -1;
 
 const homeContentPublic = "These blogs are viewed publicly. To add up anything try composing your blogs publicly! and to compose one click on + button in bottom left";
 
 
-// mongoose.connect("mongodb+srv://admin-vartika:vartika12pandit@cluster0.m6p98.mongodb.net/blogDB", {useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect("mongodb://localhost:27017/blogDB", {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 
 mongoose.set("useCreateIndex", true);
@@ -82,6 +81,7 @@ const userSchema = new mongoose.Schema ({
 const articleSchema = new mongoose.Schema({
   name: String,
   email: String,
+  postId: Number,
   title: String,
   content: String,
   private: Boolean,
@@ -490,12 +490,14 @@ app.get("/compose", function(req,res){
 
 
 // composing a blog post:
-
+var postId = 0;
 app.post("/compose", function (req, res) {
   if(req.body.hasOwnProperty("private")){
+    postId += 1;
     const newArticle = new Article({
       name: userName,
       email: userEmail,
+      postId: postId,
       title: req.body.postTitle,
       content: req.body.postBody,
       private: true,
@@ -516,9 +518,11 @@ app.post("/compose", function (req, res) {
 
   }else{
     console.log(userName);
+    postId += 1;
     const newArticle = new Article({
       name: userName,
       email: userEmail,
+      postId: postId,
       title: req.body.postTitle,
       content: req.body.postBody,
       private: false,
@@ -564,7 +568,7 @@ app.get("/blog", function(req, res) {
   Article.find(function(err, foundArticles){
     if(!err){
 
-      res.render("blog", {publicHome: homeContentPublic, postingPublicPosts: foundArticles, addMessage: req.flash('addMessage')});
+      res.render("blog", {flag: flag, publicHome: homeContentPublic, postingPublicPosts: foundArticles, addMessage: req.flash('addMessage')});
     }else{
       res.send(err);
     }
@@ -575,20 +579,25 @@ app.get("/blog", function(req, res) {
 //
 // likes button and api:
 app.post('/addLike/:postId', function (req, res) {
+  console.log(req.params.postId);
   if(userName != 0){
     Article.findById(req.params.postId, function(err, foundArticle) {
       if(err){
         res.send(err);
       }else{
-        foundArticle.likes += 1;
-      }
+
+          flag = foundArticle.postId;
+          foundArticle.likes += 1;
+
+
+        }
 
       foundArticle.save(function(err) {
         if(err){
           res.send(err);
         }else{
           console.log(foundArticle);
-          res.redirect("/blog");
+          res.render("blog", {flag: flag});
         }
       });
     });
@@ -606,6 +615,14 @@ app.post('/removeLike/:postId', function (req, res) {
         res.send(err);
       }else{
         foundArticle.dislikes += 1;
+        // if (flag == -1) {
+          flag = foundArticle.postId;
+        //
+        // } else {
+        //   flag = -1;
+        // }
+
+
 
       }
 
@@ -614,7 +631,7 @@ app.post('/removeLike/:postId', function (req, res) {
           res.send(err);
         }else{
           console.log(foundArticle);
-          res.redirect("/blog");
+          res.render("blog", {flag: flag});
         }
       });
     });
