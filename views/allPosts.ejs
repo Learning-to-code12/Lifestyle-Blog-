@@ -7,28 +7,28 @@
 <% var length = 500;%>
 <% var myString = article.content; %>
 <% var myId = article._id;%>
-
-<%  if (requiredUser == masterUser) {   %>
-  <h1 id="headingOthers" ><%= article.title %></h1>
-  <% if(article.private == true){ %>
-    <h3 class="miscellaneous">Private</h3>
-    <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
-  <% }else if(article.private == false){ %>
-    <h3 class="miscellaneous">Public</h3>
-    <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
-    <h5 class="miscellaneous">Total Likes: <%= article.likes%></h5>
-    <h5 class="miscellaneous">Total Disikes: <%= article.dislikes%></h5>
-  <% } %>
-<hr id="blog">
-<%  } else { %>
-<%  if(article.private == false){ %>
+<div class="fullPost">
+  <%  if (requiredUser == masterUser) {   %>
     <h1 id="headingOthers" ><%= article.title %></h1>
-    <h3 class="miscellaneous">Public</h3>
-    <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
-  <% } %>
+    <% if(article.private == true){ %>
+      <h3 class="miscellaneous">Private</h3>
+      <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+    <% }else if(article.private == false){ %>
+      <h3 class="miscellaneous">Public</h3>
+      <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+      <h5 class="miscellaneous">Total Likes: <%= article.likes%></h5>
+      <h5 class="miscellaneous">Total Disikes: <%= article.dislikes%></h5>
+    <% } %>
+  <%  } else { %>
+  <%  if(article.private == false){ %>
+      <h1 id="headingOthers" ><%= article.title %></h1>
+      <h3 class="miscellaneous">Public</h3>
+      <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+    <% } %>
 
-<hr id="blog">
-<%  }  %>
+  <%  }  %>
+</div>
+
 
 
 <% }); %>
