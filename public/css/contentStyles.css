@@ -1,3 +1,9 @@
+.fullPost{
+  box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+  padding-bottom: 10px;
+  margin-bottom: 40px;
+}
+
 .likes{
 
   margin: 17px;
@@ -202,7 +208,7 @@ button:focus{
 }
 
 .button-1 {
-  padding-bottom: 50px;
+  padding-bottom: 60px;
   background-color: transparent;
   border: 2px solid black;
   border-radius: 50%;
