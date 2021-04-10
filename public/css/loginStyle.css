@@ -13,28 +13,7 @@
   font-family: 'IBM Plex Sans', sans-serif;
 }
 
-/*//////////////////////////////////////////////////////////////////
-[ FONT ]*/
 
-@font-face {
-  font-family: Poppins-Regular;
-  src: url('../fonts/poppins/Poppins-Regular.ttf');
-}
-
-@font-face {
-  font-family: Poppins-Medium;
-  src: url('../fonts/poppins/Poppins-Medium.ttf');
-}
-
-@font-face {
-  font-family: Poppins-Bold;
-  src: url('../fonts/poppins/Poppins-Bold.ttf');
-}
-
-@font-face {
-  font-family: Poppins-SemiBold;
-  src: url('../fonts/poppins/Poppins-SemiBold.ttf');
-}
 
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
@@ -259,18 +238,15 @@ iframe {
   border-bottom: 2px solid #dbdbdb;
   margin-bottom: 45px;
 }
-.wrap-input{
-  height: 20px;
-  width: 20px;
-  display: inline;
+.wrap-login-input{
   position: absolute;
   bottom: 43%;
   right: 80px;
 }
 /* for sign up page */
-i{
+.wrap-signin-input{
   position: absolute;
-  bottom: 30%;
+  bottom: 32%;
   right: 80px;
 }
 
@@ -383,24 +359,42 @@ i{
 
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/
-@media (max-width: 1400px) {
-  .wrap-input{
-    position: absolute;
-      bottom: 39%;
+@media (max-width: 1500px) {
+  .wrap-login-input{
+      bottom: 45%;
       right: 80px;
   }
+  .wrap-signin-input{
+    bottom: 32%;
+    right: 80px;
+  }
+
 }
+
+@media (max-width: 1300px) {
+  .wrap-signin-input{
+    bottom: 32%;
+  }
+  .wrap-login-input{
+    bottom: 43%;
+  }
+}
+
 @media (max-width: 576px) {
   .wrap-login100 {
     padding-left: 15px;
     padding-right: 15px;
   }
-  .wrap-input{
-    position: absolute;
-      bottom: 39%;
-      right: 80px;
+  .wrap-login-input{
+      bottom: 45%;
+  }
+  .wrap-signin-input{
+    bottom: 32%;
+    right: 30px;
   }
 }
+
+
 
 
 .google{
@@ -441,11 +435,9 @@ i{
   transition: all .45s ease-Out;
   outline: none;
   border: none;
-  /* font-weight: 400; */
   color: black;
   background-color: inherit;
   font-size: 17px;
-/*   backgroud-color: transparent; */
 }
 
 #spin {
