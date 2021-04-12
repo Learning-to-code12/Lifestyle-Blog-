@@ -1,0 +1,33 @@
+<%- include("partials/headerContent");   -%>
+
+<h1 id="heading">Update this article</h1>
+<form class=""  method="post">
+  <div class="form-group">
+    <label class="title">Title</label>
+    <input id="titleId" class="form-control" type="text" name="updateTitle" value="<%= titlePage %>">
+    <label class="title">Post</label>
+    <textarea id="contentId" class="form-control" name="updateBody" rows="5" cols="30"><%= contentPage %></textarea>
+    <br>
+    <% if(isPrivate == true){ %>
+      <div class="container-4">
+      <button type="submit" name="private" class="btnD btn-four"><h4>SAVE</h4></button>
+      </div>
+    <% }else{ %>
+      <div class="container-4">
+      <button type="submit" name="public" class="btnD btn-four"><h4>SAVE</h4></button>
+      </div>
+  <%  } %>
+  </div>
+</form>
+
+
+
+</div>
+  <div class="footerCompose">
+    <p>© Copyright 2020 Vartika Hari Durgapal</p>
+  </div>
+</div>
+
+
+</body>
+</html>

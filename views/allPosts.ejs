@@ -1,0 +1,93 @@
+<%- include("partials/headerContent");   -%>
+
+<h1 style="margin-bottom:20px;" id="heading">All Posts</h1>
+
+
+<% allArticles.forEach(function(article){ %>
+<% var length = 500;%>
+<% var myString = article.content; %>
+<% var myId = article._id;%>
+
+
+
+  <%  if (masterUser == article.email) {   %>
+    <h1 id="headingOthers" ><%= article.title %></h1>
+
+    <% if(article.private == true){ %>
+
+      <h3 class="miscellaneous">Private</h3>
+      <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+
+    <% }else if(article.private == false){ %>
+
+          <div id="likeoverlaySkills">
+            <div class="close" onclick="off()">
+              <img src="images/cross.png" alt="">
+            </div>
+            <div id="text">
+              <table>
+                <ul>
+              <%    article.likes.forEach((item) => {  %>
+                    <tr>
+                      <td><h3><%= item%></h3></td>
+                    </tr>
+              <%    });  %>
+                </ul>
+              </table>
+            </div>
+          </div>
+           <!-- overlay element skills -->
+          <div id="dislikeoverlaySkills">
+            <div class="close" onclick="off()">
+              <img src="images/cross.png" alt="">
+            </div>
+            <div id="text">
+              <table>
+                <ul>
+              <%    article.dislikes.forEach((i) => {  %>
+                    <tr>
+                      <td><h3><%= i%></h3></td>
+                    </tr>
+              <%    });  %>
+                </ul>
+              </table>
+            </div>
+          </div>
+
+      <h3 class="miscellaneous">Public</h3>
+      <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+      <h5 class="miscellaneous" onclick="likePeople()">Total Likes: <%= article.noLikes%></h5>
+      <h5 class="miscellaneous" onclick="dislikePeople()">Total Disikes: <%= article.noDisLikes%></h5>
+
+    <% } else { %>
+  <%  if(article.private == false){ %>
+      <h1 id="headingOthers" ><%= article.title %></h1>
+      <h3 class="miscellaneous">Public</h3>
+      <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+    <% } %>
+  <%  }  %>
+   <%  }  %>
+
+<hr>
+<% }); %>
+
+<%  if (masterUser == requiredUser) {   %>
+  <a href="/compose"><button class="button button-1">+</button></a>
+<%    } %>
+
+
+<script type="text/javascript">
+  function likePeople() {
+      document.getElementById("likeoverlaySkills").style.display = "block";
+  }
+  function dislikePeople() {
+      document.getElementById("dislikeoverlaySkills").style.display = "block";
+  }
+    function off() {
+      document.getElementById("likeoverlaySkills").style.display = "none";
+      document.getElementById("dislikeoverlaySkills").style.display = "none";
+    }
+</script>
+
+
+<%- include("partials/footerContent"); -%>

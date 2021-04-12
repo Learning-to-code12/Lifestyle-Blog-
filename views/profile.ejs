@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Profile</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="vendor/nouislider/nouislider.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/profileStyle.css">
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+    <!-- jquery cdn link -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+
+    <div class="main">
+      <a href="/"><img class="back" src="images/back.png" alt=""></a>
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-img">
+                    <img src="images/profile-background.jpg" alt="">
+                    <div class="signup-img-content">
+                        <h1>Complete your profile now! </h1>
+                    </div>
+                </div>
+                <div class="signup-form">
+                    <form method="POST" class="register-form" id="register-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <div class="form-input">
+                                    <label for="first_name" class="required">First name</label>
+                                    <input type="text" name="first_name" id="first_name" required/>
+                                </div>
+                                <div class="form-input">
+                                    <label for="last_name" class="required">Last name</label>
+                                    <input type="text" name="last_name" id="last_name" required/>
+                                </div>
+                                <div class="form-input">
+                                    <label for="email" class="required">Email</label>
+                                    <input type="text" name="email" id="email" value="<%= email%>" required/>
+                                </div>
+                                <div class="form-input">
+                                    <label for="phone_number" class="required">Phone number</label>
+                                    <input name="phone_number" id="phone_number" aria-required="true" pattern="[7-9]{1}[0-9]{9}" type="tel" spellcheck="false" maxlength="10" placeholder="Format: 9999999999" title="Please enter a valid mobile number" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-radio">
+                                    <div class="label-flex">
+                                        <label>Education Status</label>
+                                    </div>
+                                    <div class="form-radio-group">
+                                      <label for="student">student</label>
+                                      <input type="radio" name="status" id="student" value="student"><br>
+                                      <label for="prof">Professional</label>
+                                      <input type="radio" name="status" id="prof" value="prof"><br>
+                                    </div>
+                                </div>
+                                <div class="form-input">
+                                    <label>Social link (Github/ LinkedIn/ Others)</label>
+                                    <input type="text" name="social" id="social" data-validate = "Please enter a valid link: www.example.com"/>
+                                </div>
+                                <div class="form-input">
+                                    <label>About You</label>
+                                    <textarea type="text" name="about" id="about"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="button" id="button-2">
+                          <div id="slide"></div>
+                          <button type="submit" value="Submit" class="done">DONE!</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/nouislider/nouislider.min.js"></script>
+    <script src="vendor/wnumb/wNumb.js"></script>
+    <script src="vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="vendor/jquery-validation/dist/additional-methods.min.js"></script>
+</body>
+</html>
