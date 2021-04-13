@@ -1,0 +1,11 @@
+<%- include("partials/headerContent");   -%>
+      <h3><strong>People Who Liked</strong></h3>
+  <%  post.likes.forEach(function(i){  %>
+    <ul>
+      <li><h4><%= i%></h4></li>
+    </ul>
+
+  <%  })  %>
+
+
+  <%- include("partials/footerContent"); -%>

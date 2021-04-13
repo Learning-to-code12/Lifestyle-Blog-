@@ -1,0 +1,12 @@
+<%- include("partials/headerContent");   -%>
+
+    <h3><strong>People Who Disliked</strong></h3>
+  <%  post.dislikes.forEach(function(i){  %>
+    <ul>
+      <li><h4><%= i%></h4></li>
+    </ul>
+
+  <%  })  %>
+
+
+  <%- include("partials/footerContent"); -%>

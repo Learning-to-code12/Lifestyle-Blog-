@@ -1,0 +1,48 @@
+<%- include("partials/headerContent");   -%>
+
+<h1 style="margin-bottom:20px;" id="heading">All Posts</h1>
+
+
+<% allArticles.forEach(function(article){ %>
+<% var length = 500;%>
+<% var myString = article.content; %>
+<% var myId = article._id;%>
+
+
+
+  <%  if (masterUser == article.email) {   %>
+    <h1 id="headingOthers" ><%= article.title %></h1>
+
+    <% if(article.private == true){ %>
+
+      <h3 class="miscellaneous">Private</h3>
+      <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+
+    <% }else if(article.private == false){ %>
+
+      <h3 class="miscellaneous">Public</h3>
+      <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+      <h5 class="miscellaneous"><a href="/likes/<%= myId %>">Total Likes: <%= article.noLikes%></a></h5>
+      <h5 class="miscellaneous"><a href="/dislikes/<%= myId %>">Total Disikes: <%= article.noDisLikes%></a></h5>
+
+    <% } else { %>
+  <%  if(article.private == false){ %>
+      <h1 id="headingOthers" ><%= article.title %></h1>
+      <h3 class="miscellaneous">Public</h3>
+      <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+    <% } %>
+  <%  }  %>
+   <%  }  %>
+
+<hr>
+<% }); %>
+
+<%  if (masterUser == requiredUser) {   %>
+  <a href="/compose"><button class="button button-1">+</button></a>
+<%    } %>
+
+
+
+
+
+<%- include("partials/footerContent"); -%>

@@ -1,0 +1,102 @@
+<%- include("partials/headerContent");   -%>
+<% if(addMessage.length > 0){ %>
+  <div class="w3-panel w3-green flashMessage">
+       <h3><%=addMessage%></h3>
+  </div>
+<% } %>
+
+<h1 id="heading">Blogs</h1>
+<p class="para"><%= publicHome %></p>
+<br>
+
+<% var likeCount = 0;%>
+<% var dislikeCount = 10;%>
+<% postingPublicPosts.forEach(function(post){ %>
+  <% if(post.private == false){ %>
+    <% var myString = post.content; %>
+    <% var myName = post.name; %>
+    <% var myEmail = post.email; %>
+    <% var myId = post._id;%>
+    <% var length = 200;%>
+    <% likeCount += 1;%>
+    <% dislikeCount += 1;%>
+
+
+
+<div class="fullPost">
+  <a id="headingOthers" href="/publicPosts/<%= myId %>"><h1><%= post.title %></h1></a>
+    <div class="names">
+      <h4 >BY</h4> <h3><%= myName %></h3>
+    </div>
+
+
+  <p class="paraOthers"><%= myString.substring(0, length)%> ... <a href="/publicPosts/<%= myId %>">Read More</a>
+    <br>
+    <h3 class="contact"><%= myEmail %></h3>
+
+
+      <div class="pack">
+        <div class="button likes1" id=<%= likeCount%>>
+          <img src="images/like2.png" alt="">
+        </div>
+        <button class="like1">
+          <h5 class="noLikes" ><%= post.noLikes%></h5>
+        </button>
+
+      </div>
+        <div class="pack">
+          <div class="button likes2" id=<%= dislikeCount%>>
+            <img src="images/dislike.png" alt="">
+          </div>
+          <button class="like2">
+            <h5 class="noLikes" ><%= post.noDisLikes%></h5>
+          </button>
+
+        </div>
+
+
+
+
+
+
+
+    <script type="text/javascript">
+      var likeButton = document.getElementById(<%= likeCount%>);
+      var dislikeButton = document.getElementById(<%= dislikeCount%>);
+      var flag = <%= likeCount%>;
+           likeButton.addEventListener('click', function(e) {
+            fetch('/addLike/<%= myId%>', {method: 'POST'})
+            .then(() => {
+                 window.location.reload(false);
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+          });
+          dislikeButton.addEventListener('click', function(e) {
+           fetch('/removeLike/<%= myId%>', {method: 'POST'})
+           .then(() => {
+                window.location.reload(false);
+
+             // window.location.href = "/blog";
+           })
+           .catch(function(error) {
+             console.log(error);
+           });
+         });
+
+
+      </script>
+
+</p>
+</div>
+
+    <!-- <hr id="blog"> -->
+
+
+<%  } %>
+<% }); %>
+
+<a href="/compose"><button class="button button-1">+</button></a>
+
+<%- include("partials/footerContent"); -%>
